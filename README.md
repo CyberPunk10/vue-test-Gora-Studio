@@ -1,4 +1,4 @@
-# sadfasdfasdf
+# vue-test-gora-studio
 
 ## Project setup
 ```

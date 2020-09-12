@@ -9,11 +9,15 @@
 </template>
 
 <style lang="sass">
-
+*
+  margin: 0
+  padding: 0
 html
   font-size: 10px // 1rem = 10px
 body
   font-size: 16px // шрифт вернули по умолчанию
+  width: 100%
+  height: 100%
 
 #app
   font-family: Avenir, Helvetica, Arial, sans-serif
