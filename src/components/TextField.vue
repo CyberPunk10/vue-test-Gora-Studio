@@ -18,10 +18,8 @@ export default {
   .text-field
     position: relative
     max-width: 32rem
+    width: 100%
     margin-bottom: 1rem
-
-    &_width-sm
-      max-width: 26.6rem
 
     &_margin-bottom-5
       margin-bottom: .5rem
@@ -33,8 +31,9 @@ export default {
       padding: 1.2rem 1.5rem
       width: 100%
       font-size: 1.4rem
-      // font-family: $Montserrat
       color: $color-dark-shade-75
+      outline: none
+      box-sizing: border-box
       transition: 0.2s ease all
 
       &::-webkit-input-placeholder

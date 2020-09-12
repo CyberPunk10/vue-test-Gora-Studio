@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <TextField msg="Welcome to Your Vue.js App"/>
-    <TextField msg="Welcome to Your Vue.js App"/>
-    <Button msg="Welcome to Your Vue.js App"/>
+    <TextField/>
+    <TextField/>
+    <Button/>
   </div>
 </template>
 
@@ -18,3 +18,9 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.home
+  display: flex
+  justify-content: center
+</style>
