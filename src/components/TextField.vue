@@ -1,62 +1,85 @@
-<template lang="pug">
-  .text-field
-    input.text-field__input
-    //- if options.isClickable
-      <i class="text-field__icon material-icons">arrow_forward</i>
+<template lang="html">
+<div class="text-field">
+  <h3 class="text-field__title">{{ textFieldTitle.title }}</h3>
+  <input
+    type="text"
+    class="text-field__input"
+    v-bind:autofocus="{ true: textFieldTitle.focus }"
+    v-model.trim="valueTextField"
+  >
+  <span
+    class="text-field__warning"
+    :class="{ invalid: textFieldTitle.invalid.$dirty }"
+  >{{ textFieldTitle.warning }}</span>
+</div>
 </template>
 
 <script>
-export default {
 
+export default {
+  data () {
+    return {
+      valueTextField: ''
+    }
+  },
+  props: ['textFieldTitle'],
+  watch: {
+    valueTextField (value) {
+      this.$emit('func', value, this.textFieldTitle.title)
+    }
+  }
 }
 </script>
 
 <style lang="sass">
-  $color-dark-shade-75: rgba(31, 32, 65, 0.75)
-  $color-dark-shade-50: rgba(31, 32, 65, 0.5)
-  $color-dark-shade-25: rgba(31, 32, 65, 0.25)
-  .text-field
-    position: relative
-    max-width: 32rem
+$color-dark-shade-75: rgba(31, 32, 65, 0.75)
+$color-dark-shade-50: rgba(31, 32, 65, 0.5)
+$color-dark-shade-25: rgba(31, 32, 65, 0.25)
+$color-red: #ff6163
+
+.text-field
+  max-width: 32rem
+  width: 100%
+  margin: 1rem
+
+  &__title
+    padding-bottom: 0.5rem
+    user-select: none
+    font-family: "Open Sans", sans-serif
+    white-space: nowrap
+    font-weight: bold
+    font-size: 1.2rem
+    text-transform: uppercase
+
+  &__input
+    background: #FFFFFF
+    border: 1px solid $color-dark-shade-25
+    border-radius: 4px
+    padding: 1.2rem 1.5rem
     width: 100%
-    margin-bottom: 1rem
+    font-size: 1.4rem
+    font-family: "Montserrat Alternates", Avenir, Helvetica, Arial, sans-serif
+    color: $color-dark-shade-75
+    outline: none
+    box-sizing: border-box
+    transition: 0.2s ease all
 
-    &_margin-bottom-5
-      margin-bottom: .5rem
+    &::-webkit-input-placeholder
+      color: $color-dark-shade-25
+    &::-moz-placeholder
+      color: $color-dark-shade-25
 
-    &__input
-      background: #FFFFFF
-      border: 1px solid $color-dark-shade-25
-      border-radius: 4px
-      padding: 1.2rem 1.5rem
-      width: 100%
-      font-size: 1.4rem
-      color: $color-dark-shade-75
-      outline: none
-      box-sizing: border-box
-      transition: 0.2s ease all
+    &:hover, &:focus
+      border: 1px solid $color-dark-shade-50
 
-      &::-webkit-input-placeholder
-        color: $color-dark-shade-25
-      &::-moz-placeholder
-        color: $color-dark-shade-25
+  &__warning
+    color: $color-red
+    font-size: 1.2rem
+    opacity: 0
+    visibility: hidden
 
-      &:hover, &:focus
-        border: 1px solid $color-dark-shade-50
-
-    &__icon
-      position: absolute
-      cursor: pointer
-      display: flex
-      justify-content: center
-      align-items: center
-      height: calc(100% - 2px)
-      width: 4.3rem
-      background-color: #fff
-      border-radius: 5px
-      top: 1px
-      bottom: 0
-      right: 1px
-      // @include text-linear-gradient
+    &.invalid
+      opacity: 1
+      visibility: visible
 
 </style>
