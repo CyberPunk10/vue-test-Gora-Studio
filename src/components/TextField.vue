@@ -1,16 +1,30 @@
 <template lang="html">
 <div class="text-field">
-  <h3 class="text-field__title">{{ textFieldTitle.title }}</h3>
+  <h3 class="text-field__title">{{ textField.title }}</h3>
   <input
     type="text"
     class="text-field__input"
-    v-bind:autofocus="{ true: textFieldTitle.focus }"
+    v-bind:autofocus="{ true: textField.focus }"
     v-model.trim="valueTextField"
   >
   <span
     class="text-field__error-msg"
-    :class="{invalid: textFieldTitle.invalid.emptyField || textFieldTitle.invalid.incorrect}"
-  >{{ textFieldTitle.invalid.incorrect ? messageIncorrect : messageIncorrect || textFieldTitle.invalid.emptyField ? messageEmpty : messageEmpty }}</span>
+    :class="{invalid: textField.invalid.emptyField || textField.invalid.incorrect}">
+    {{
+      textField.invalid.emptyField ? messageEmpty
+      : (textField.invalid.incorrect ? messageIncorrect : false)
+    }}
+    <!-- {{
+      textField.invalid.emptyField ? messageEmpty
+      : (textField.invalid.incorrect ?
+        (textField.title === 'Email' ? messageIncorrect
+          : textField.title === 'Password' ? messageIncorrectPassword : false) : false)
+    }} -->
+  </span>
+  <!-- <span
+    class="text-field__error-msg invalid"
+    v-if="textField.title === 'Password'">{{ this.valueTextField.length }}/{{ textField.minLengthPassword }}
+  </span> -->
 </div>
 </template>
 
@@ -20,15 +34,16 @@ export default {
   data () {
     return {
       valueTextField: '',
-      messageEmpty: `Поле ${this.textFieldTitle.title} не должно быть пустым`,
-      messageIncorrect: `Введите корректный ${this.textFieldTitle.title}`
+      messageEmpty: `Поле ${this.textField.title} не должно быть пустым`,
+      messageIncorrect: `Введите корректный ${this.textField.title}`
+      // messageIncorrectPassword: `Пароль должен быть не менее ${this.textField.minLengthPassword} символов:`
     }
   },
   computed: { },
-  props: ['textFieldTitle'],
+  props: ['textField'],
   watch: {
     valueTextField (value) {
-      this.$emit('func', value, this.textFieldTitle.title)
+      this.$emit('func', value, this.textField.title)
     }
   }
 }

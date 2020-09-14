@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <form @submit.prevent="onSubmit">
-      <TextField v-bind:textFieldTitle="textFieldEmail" @func="setValue"/>
-      <TextField v-bind:textFieldTitle="textFieldPassword" @func="setValue"/>
+      <TextField v-bind:textField="textFieldEmail" @func="setValue"/>
+      <TextField v-bind:textField="textFieldPassword" @func="setValue"/>
       <Button v-bind:button="button"/>
     </form>
   </div>
@@ -21,17 +21,16 @@ export default {
       textFieldEmail: {
         title: 'Email',
         focus: true,
-        value: '',
         invalid: { emptyField: false, incorrect: false }
       },
       textFieldPassword: {
         title: 'Password',
-        value: '',
         invalid: { emptyField: false, incorrect: false }
+        // minLengthPassword: ''
       },
+      button: { type: 'submit' },
       valueEmail: '',
-      valuePassword: '',
-      button: { type: 'submit' }
+      valuePassword: ''
     }
   },
   validations: {
@@ -42,28 +41,6 @@ export default {
     TextField, Button
   },
   methods: {
-    onSubmit () {
-      console.log('[INVALID]', this.$v.$invalid) // работает (true == invalid)
-      console.log(this.valueEmail)
-      console.log(this.valuePassword)
-      console.log(this.$v) // передать этот параметр
-
-      this.textFieldEmail.invalid.emptyField = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.required)
-      this.textFieldEmail.invalid.incorrect = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.email)
-      this.textFieldPassword.invalid.emptyField = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.required)
-      this.textFieldPassword.invalid.incorrect = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.minLength)
-
-      console.log('validate Email: ', this.textFieldEmail.invalid.emptyField)
-      console.log('validate Email: ', this.textFieldEmail.invalid.incorrect)
-      console.log('validate Passowrd: ', this.textFieldPassword.invalid.emptyField)
-      console.log('validate Passowrd: ', this.textFieldPassword.invalid.incorrect)
-
-      if (this.$v.$invalid) {
-        this.$v.$touch()
-        return
-      }
-      this.$router.push('/')
-    },
     setValue (value, type) {
       if (type === 'Email') {
         this.valueEmail = value
@@ -71,7 +48,31 @@ export default {
       } else if (type === 'Password') {
         this.valuePassword = value
         this.textFieldPassword.value = value
+        // this.textFieldPassword.minLengthPassword = this.$v.valuePassword.$params.minLength.min
       }
+      this.handlerInputs()
+    },
+    handlerInputs () {
+      this.minLengthPassword = this.$v.valuePassword.$params.minLength.min
+      this.textFieldEmail.invalid.emptyField = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.required)
+      this.textFieldEmail.invalid.incorrect = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.email)
+      this.textFieldPassword.invalid.emptyField = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.required)
+      this.textFieldPassword.invalid.incorrect = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.minLength)
+    },
+    onSubmit () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        this.handlerInputs()
+        return
+      }
+
+      const formData = {
+        email: this.valueEmail,
+        password: this.valuePassword
+      }
+      console.log(formData)
+
+      this.$router.push('/about')
     }
   }
 }
