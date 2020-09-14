@@ -8,9 +8,9 @@
     v-model.trim="valueTextField"
   >
   <span
-    class="text-field__warning"
-    :class="{ invalid: textFieldTitle.invalid.$dirty }"
-  >{{ textFieldTitle.warning }}</span>
+    class="text-field__error-msg"
+    :class="{invalid: textFieldTitle.invalid.emptyField || textFieldTitle.invalid.incorrect}"
+  >{{ textFieldTitle.invalid.incorrect ? messageIncorrect : messageIncorrect || textFieldTitle.invalid.emptyField ? messageEmpty : messageEmpty }}</span>
 </div>
 </template>
 
@@ -19,9 +19,12 @@
 export default {
   data () {
     return {
-      valueTextField: ''
+      valueTextField: '',
+      messageEmpty: `Поле ${this.textFieldTitle.title} не должно быть пустым`,
+      messageIncorrect: `Введите корректный ${this.textFieldTitle.title}`
     }
   },
+  computed: { },
   props: ['textFieldTitle'],
   watch: {
     valueTextField (value) {
@@ -39,6 +42,7 @@ $color-red: #ff6163
 
 .text-field
   max-width: 32rem
+  min-width: 26rem
   width: 100%
   margin: 1rem
 
@@ -72,7 +76,7 @@ $color-red: #ff6163
     &:hover, &:focus
       border: 1px solid $color-dark-shade-50
 
-  &__warning
+  &__error-msg
     color: $color-red
     font-size: 1.2rem
     opacity: 0

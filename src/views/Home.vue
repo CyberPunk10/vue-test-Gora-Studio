@@ -18,8 +18,17 @@ export default {
   name: 'Home',
   data () {
     return {
-      textFieldEmail: { title: 'Email', focus: true, warning: 'Введите корректный адрес почты', value: '', invalid: false },
-      textFieldPassword: { title: 'Password', warning: 'Введите корректный пароль', value: '', invalid: false },
+      textFieldEmail: {
+        title: 'Email',
+        focus: true,
+        value: '',
+        invalid: { emptyField: false, incorrect: false }
+      },
+      textFieldPassword: {
+        title: 'Password',
+        value: '',
+        invalid: { emptyField: false, incorrect: false }
+      },
       valueEmail: '',
       valuePassword: '',
       button: { type: 'submit' }
@@ -34,14 +43,23 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log(this.$v.$invalid) // работает (true == invalid)
+      console.log('[INVALID]', this.$v.$invalid) // работает (true == invalid)
       console.log(this.valueEmail)
       console.log(this.valuePassword)
       console.log(this.$v) // передать этот параметр
+
+      this.textFieldEmail.invalid.emptyField = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.required)
+      this.textFieldEmail.invalid.incorrect = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.email)
+      this.textFieldPassword.invalid.emptyField = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.required)
+      this.textFieldPassword.invalid.incorrect = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.minLength)
+
+      console.log('validate Email: ', this.textFieldEmail.invalid.emptyField)
+      console.log('validate Email: ', this.textFieldEmail.invalid.incorrect)
+      console.log('validate Passowrd: ', this.textFieldPassword.invalid.emptyField)
+      console.log('validate Passowrd: ', this.textFieldPassword.invalid.incorrect)
+
       if (this.$v.$invalid) {
         this.$v.$touch()
-        this.textFieldEmail.invalid = this.$v
-        this.textFieldPassword.invalid = this.$v
         return
       }
       this.$router.push('/')
