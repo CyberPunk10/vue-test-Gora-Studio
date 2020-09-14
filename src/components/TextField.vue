@@ -1,16 +1,30 @@
 <template lang="html">
 <div class="text-field">
-  <h3 class="text-field__title">{{ textFieldTitle.title }}</h3>
+  <h3 class="text-field__title">{{ textField.title }}</h3>
   <input
     type="text"
     class="text-field__input"
-    v-bind:autofocus="{ true: textFieldTitle.focus }"
+    v-bind:autofocus="{ true: textField.focus }"
     v-model.trim="valueTextField"
   >
   <span
-    class="text-field__warning"
-    :class="{ invalid: textFieldTitle.invalid.$dirty }"
-  >{{ textFieldTitle.warning }}</span>
+    class="text-field__error-msg"
+    :class="{invalid: textField.invalid.emptyField || textField.invalid.incorrect}">
+    {{
+      textField.invalid.emptyField ? messageEmpty
+      : (textField.invalid.incorrect ? messageIncorrect : false)
+    }}
+    <!-- {{
+      textField.invalid.emptyField ? messageEmpty
+      : (textField.invalid.incorrect ?
+        (textField.title === 'Email' ? messageIncorrect
+          : textField.title === 'Password' ? messageIncorrectPassword : false) : false)
+    }} -->
+  </span>
+  <!-- <span
+    class="text-field__error-msg invalid"
+    v-if="textField.title === 'Password'">{{ this.valueTextField.length }}/{{ textField.minLengthPassword }}
+  </span> -->
 </div>
 </template>
 
@@ -19,13 +33,17 @@
 export default {
   data () {
     return {
-      valueTextField: ''
+      valueTextField: '',
+      messageEmpty: `Поле ${this.textField.title} не должно быть пустым`,
+      messageIncorrect: `Введите корректный ${this.textField.title}`
+      // messageIncorrectPassword: `Пароль должен быть не менее ${this.textField.minLengthPassword} символов:`
     }
   },
-  props: ['textFieldTitle'],
+  computed: { },
+  props: ['textField'],
   watch: {
     valueTextField (value) {
-      this.$emit('func', value, this.textFieldTitle.title)
+      this.$emit('func', value, this.textField.title)
     }
   }
 }
@@ -39,6 +57,7 @@ $color-red: #ff6163
 
 .text-field
   max-width: 32rem
+  min-width: 26rem
   width: 100%
   margin: 1rem
 
@@ -72,7 +91,7 @@ $color-red: #ff6163
     &:hover, &:focus
       border: 1px solid $color-dark-shade-50
 
-  &__warning
+  &__error-msg
     color: $color-red
     font-size: 1.2rem
     opacity: 0
