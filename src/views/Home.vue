@@ -59,7 +59,7 @@ export default {
       this.textFieldPassword.invalid.emptyField = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.required)
       this.textFieldPassword.invalid.incorrect = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.minLength)
     },
-    onSubmit () {
+    async onSubmit () {
       if (this.$v.$invalid) {
         this.$v.$touch()
         this.handlerInputs()
@@ -70,6 +70,7 @@ export default {
         email: this.valueEmail,
         password: this.valuePassword
       }
+      await this.$store.dispath('login', formData)
       console.log(formData)
 
       this.$router.push('/about')
