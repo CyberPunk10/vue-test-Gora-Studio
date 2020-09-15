@@ -2,7 +2,7 @@
 <div class="text-field">
   <h3 class="text-field__title">{{ textField.title }}</h3>
   <input
-    type="text"
+    :type="textField.type"
     class="text-field__input"
     v-bind:autofocus="{ true: textField.focus }"
     v-model.trim="valueTextField"
@@ -14,17 +14,8 @@
       textField.invalid.emptyField ? messageEmpty
       : (textField.invalid.incorrect ? messageIncorrect : false)
     }}
-    <!-- {{
-      textField.invalid.emptyField ? messageEmpty
-      : (textField.invalid.incorrect ?
-        (textField.title === 'Email' ? messageIncorrect
-          : textField.title === 'Password' ? messageIncorrectPassword : false) : false)
-    }} -->
   </span>
-  <!-- <span
-    class="text-field__error-msg invalid"
-    v-if="textField.title === 'Password'">{{ this.valueTextField.length }}/{{ textField.minLengthPassword }}
-  </span> -->
+
 </div>
 </template>
 
@@ -36,7 +27,6 @@ export default {
       valueTextField: '',
       messageEmpty: `Поле ${this.textField.title} не должно быть пустым`,
       messageIncorrect: `Введите корректный ${this.textField.title}`
-      // messageIncorrectPassword: `Пароль должен быть не менее ${this.textField.minLengthPassword} символов:`
     }
   },
   computed: { },

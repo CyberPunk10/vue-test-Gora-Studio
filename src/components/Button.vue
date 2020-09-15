@@ -1,5 +1,5 @@
 <template lang="pug">
-  button(class="btn" v-bind:type="{'submit': button.type}")
+  button(class="btn" v-bind:type="button.type")
     span.btn__title {{ button.text}}
     <i class="btn__icon material-icons">arrow_forward</i>
 
@@ -35,6 +35,7 @@ $color-dark-shade-50: rgba(97, 40, 81, 0.5)
   text-align: center
   transition: .15s ease-out background-color
   border: none
+  outline: none
 
   &:hover
     background-color: $color-dark-shade-100
