@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="login">
     <form @submit.prevent="onSubmit">
       <TextField v-bind:textField="textFieldEmail" @func="setValue"/>
       <TextField v-bind:textField="textFieldPassword" @func="setValue"/>
@@ -15,7 +15,7 @@ import Button from '@/components/Button.vue'
 import { email, required, minLength } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'Home',
+  name: 'Login',
   data () {
     return {
       textFieldEmail: {
@@ -78,17 +78,32 @@ export default {
         password: resultPassword
       }
 
+      function storage (key, data = null) {
+        if (!data) {
+          return JSON.parse(localStorage.getItem(key))
+        }
+        localStorage.setItem(key, JSON.stringify(data))
+      }
+
       try {
         await this.$store.dispatch('login', formData)
         this.$router.push('/about')
-      } catch (error) { }
+        storage('data-storage', formData)
+      } catch (error) {
+        if (error.code === 'auth/wrong-password') {
+          this.textFieldPassword.invalid.incorrect = true
+        }
+        if (error.code === 'auth/user-not-found') {
+          this.textFieldEmail.invalid.incorrect = true
+        }
+      }
     }
   }
 }
 </script>
 
 <style lang="sass">
-.home
+.login
   height: 100vh
   display: flex
   justify-content: center

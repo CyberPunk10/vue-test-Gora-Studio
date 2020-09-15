@@ -35,6 +35,7 @@ $color-dark-shade-50: rgba(97, 40, 81, 0.5)
   text-align: center
   transition: .15s ease-out background-color
   border: none
+  outline: none
 
   &:hover
     background-color: $color-dark-shade-100
