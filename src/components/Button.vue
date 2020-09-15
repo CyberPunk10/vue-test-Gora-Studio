@@ -1,5 +1,5 @@
 <template lang="pug">
-  button(class="btn" v-bind:type="{'submit': button.type}")
+  button(class="btn" v-bind:type="button.type")
     span.btn__title {{ button.text}}
     <i class="btn__icon material-icons">arrow_forward</i>
 
