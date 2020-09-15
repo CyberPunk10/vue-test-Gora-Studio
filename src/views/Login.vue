@@ -20,12 +20,14 @@ export default {
     return {
       textFieldEmail: {
         title: 'Email',
-        focus: true,
-        invalid: { emptyField: false, incorrect: false }
+        autofocus: true,
+        invalid: { emptyField: false, incorrect: false },
+        type: 'email'
       },
       textFieldPassword: {
         title: 'Password',
-        invalid: { emptyField: false, incorrect: false }
+        invalid: { emptyField: false, incorrect: false },
+        type: 'password'
         // minLengthPassword: ''
       },
       button: { type: 'submit', text: 'login' },
@@ -53,7 +55,7 @@ export default {
       this.handlerInputs()
     },
     handlerInputs () {
-      this.minLengthPassword = this.$v.valuePassword.$params.minLength.min
+      // this.minLengthPassword = this.$v.valuePassword.$params.minLength.min
       this.textFieldEmail.invalid.emptyField = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.required)
       this.textFieldEmail.invalid.incorrect = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.email)
       this.textFieldPassword.invalid.emptyField = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.required)
