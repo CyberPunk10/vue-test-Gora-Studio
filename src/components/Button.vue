@@ -1,6 +1,6 @@
 <template lang="pug">
   button(class="btn" v-bind:type="{'submit': button.type}")
-    span.btn__title logout
+    span.btn__title {{ button.text}}
     <i class="btn__icon material-icons">arrow_forward</i>
 
 </template>
@@ -11,9 +11,9 @@ export default {
 }
 </script>
 <style lang="sass">
-$color-dark-shade-100: #1F2041
-$color-dark-shade-75: rgba(31, 32, 65, 0.75)
-$color-dark-shade-50: rgba(31, 32, 65, 0.5)
+$color-dark-shade-100: rg(97, 40, 81)
+$color-dark-shade-75: rgba(97, 40, 81, 0.75)
+$color-dark-shade-50: rgba(97, 40, 81, 0.5)
 // $color-dark-shade-25: rgba(31, 32, 65, 0.25)
 // $color-dark-shade-10: rgba(31, 32, 65, 0.10)
 // $color-dark-shade-5: rgba(31, 32, 65, 0.05)
@@ -23,7 +23,7 @@ $color-dark-shade-50: rgba(31, 32, 65, 0.5)
   cursor: pointer
   user-select: none
   position: relative
-  width: 100%
+  width: calc(100% - 2rem)
   max-width: 32rem
   min-width: 15rem
   height: 4.2rem

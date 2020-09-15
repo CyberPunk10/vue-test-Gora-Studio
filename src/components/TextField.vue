@@ -58,7 +58,7 @@ $color-red: #ff6163
 .text-field
   max-width: 32rem
   min-width: 26rem
-  width: 100%
+  width: calc(100% - 2rem)
   margin: 1rem
 
   &__title
