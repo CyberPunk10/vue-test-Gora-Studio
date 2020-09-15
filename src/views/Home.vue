@@ -28,14 +28,14 @@ export default {
         invalid: { emptyField: false, incorrect: false }
         // minLengthPassword: ''
       },
-      button: { type: 'submit' },
+      button: { type: 'submit', text: 'login' },
       valueEmail: '',
       valuePassword: ''
     }
   },
   validations: {
     valueEmail: { email, required },
-    valuePassword: { required, minLength: minLength(6) }
+    valuePassword: { required, minLength: minLength(4) }
   },
   components: {
     TextField, Button
@@ -66,14 +66,22 @@ export default {
         return
       }
 
+      let resultPassword = String(this.valuePassword)
+      if (resultPassword.length === 4) {
+        resultPassword += '00'
+      } else if (resultPassword.length === 5) {
+        resultPassword += '0'
+      }
+
       const formData = {
         email: this.valueEmail,
-        password: this.valuePassword
+        password: resultPassword
       }
-      await this.$store.dispath('login', formData)
-      console.log(formData)
 
-      this.$router.push('/about')
+      try {
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/about')
+      } catch (error) { }
     }
   }
 }
@@ -81,6 +89,10 @@ export default {
 
 <style lang="sass">
 .home
+  height: 100vh
   display: flex
   justify-content: center
+  align-items: center
+  form
+    padding-bottom: 21vh
 </style>
