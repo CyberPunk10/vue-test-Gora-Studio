@@ -21,7 +21,7 @@ export default {
     return {
       textFieldName: {
         title: 'Имя',
-        focus: true,
+        autofocus: true,
         invalid: { emptyField: false, incorrect: false },
         type: 'text'
       },
@@ -50,14 +50,14 @@ export default {
     TextField, Button
   },
   methods: {
-    setValue (value, type) {
-      if (type === 'Name') {
+    setValue (value, title) {
+      if (title === this.textFieldName.title) {
         this.valueName = value
         this.textFieldName.value = value
-      } else if (type === 'Email') {
+      } else if (title === this.textFieldEmail.title) {
         this.valueEmail = value
         this.textFieldEmail.value = value
-      } else if (type === 'Password') {
+      } else if (title === this.textFieldPassword.title) {
         this.valuePassword = value
         this.textFieldPassword.value = value
       }
@@ -66,14 +66,12 @@ export default {
     handlerInputs () {
       this.textFieldName.invalid.emptyField = (this.$v.valueName.$dirty && !this.$v.valueName.required)
       this.textFieldName.invalid.incorrect = (this.$v.valueName.$dirty && !this.$v.valueName.minLength)
-      console.log(this.textFieldName.invalid.incorrect)
 
       this.textFieldEmail.invalid.emptyField = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.required)
       this.textFieldEmail.invalid.incorrect = (this.$v.valueEmail.$dirty && !this.$v.valueEmail.email)
 
       this.textFieldPassword.invalid.emptyField = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.required)
       this.textFieldPassword.invalid.incorrect = (this.$v.valuePassword.$dirty && !this.$v.valuePassword.minLength)
-      console.log(this.textFieldPassword.invalid.incorrect)
     },
     async onSubmit () {
       if (this.$v.$invalid) {

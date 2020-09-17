@@ -2,9 +2,9 @@
 <div class="text-field">
   <h3 class="text-field__title">{{ textField.title }}</h3>
   <input
-    :type="textField.type"
     class="text-field__input"
-    v-bind:autofocus="{ true: textField.focus }"
+    :type="textField.type"
+    :autofocus="textField.autofocus"
     v-model.trim="valueTextField"
   >
   <span
