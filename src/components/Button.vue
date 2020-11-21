@@ -11,7 +11,7 @@ export default {
 }
 </script>
 <style lang="sass">
-$color-dark-shade-100: rg(97, 40, 81)
+$color-dark-shade-100: rgb(97, 40, 81)
 $color-dark-shade-75: rgba(97, 40, 81, 0.75)
 $color-dark-shade-50: rgba(97, 40, 81, 0.5)
 // $color-dark-shade-25: rgba(31, 32, 65, 0.25)
